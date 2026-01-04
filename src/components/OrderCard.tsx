@@ -1,4 +1,4 @@
-import { Package, ChevronRight } from 'lucide-react';
+import { Smartphone, ChevronRight } from 'lucide-react';
 
 interface OrderCardProps {
   order: {
@@ -6,7 +6,6 @@ interface OrderCardProps {
     phone: {
       brand: string;
       model: string;
-      image: string;
     };
     finalPrice: number;
     status: string;
@@ -21,8 +20,8 @@ export function OrderCard({ order }: OrderCardProps) {
 
   return (
     <div className="card-elevated flex items-center gap-4">
-      <div className="w-14 h-14 rounded-xl bg-muted flex items-center justify-center text-2xl">
-        {order.phone.image}
+      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
+        <Smartphone size={20} className="text-muted-foreground" />
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="font-semibold text-foreground truncate">{order.phone.model}</h4>

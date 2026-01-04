@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { PageTransition } from '@/components/PageTransition';
-import { Check, MapPin, CreditCard, Smartphone, Home } from 'lucide-react';
+import { MapPin, CreditCard, Smartphone, Home } from 'lucide-react';
 
 export default function ConfirmationPage() {
   const navigate = useNavigate();
@@ -78,7 +78,9 @@ export default function ConfirmationPage() {
                 <h3 className="font-semibold text-foreground">Order Details</h3>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-3xl">{latestOrder.phone.image}</span>
+                <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
+                  <Smartphone size={22} className="text-muted-foreground" />
+                </div>
                 <div className="flex-1">
                   <p className="font-semibold text-foreground">{latestOrder.phone.model}</p>
                   <p className="text-sm text-muted-foreground">{latestOrder.phone.brand}</p>

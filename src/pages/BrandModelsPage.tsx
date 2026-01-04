@@ -21,6 +21,8 @@ export default function BrandModelsPage() {
     );
   }
 
+  const IconComponent = brand.Icon;
+
   return (
     <PageTransition className="app-container">
       <Header />
@@ -31,8 +33,8 @@ export default function BrandModelsPage() {
 
       <section className="px-4 pb-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center text-3xl">
-            {brand.logo}
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <IconComponent size={28} className="text-primary" />
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">{brand.name} Phones</h1>

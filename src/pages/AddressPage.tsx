@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { BackButton } from '@/components/BackButton';
 import { PageTransition } from '@/components/PageTransition';
-import { MapPin, User, Phone, Home, Hash } from 'lucide-react';
+import { MapPin, User, Phone, Home, Hash, Smartphone } from 'lucide-react';
 
 export default function AddressPage() {
   const navigate = useNavigate();
@@ -74,7 +74,9 @@ export default function AddressPage() {
 
         {/* Phone Summary */}
         <div className="flex items-center gap-3 p-3 rounded-xl bg-muted mb-6">
-          <span className="text-2xl">{selectedPhone.image}</span>
+          <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center">
+            <Smartphone size={20} className="text-muted-foreground" />
+          </div>
           <div className="flex-1">
             <p className="font-semibold text-foreground">{selectedPhone.model}</p>
             <p className="text-sm text-muted-foreground">{selectedPhone.brand}</p>

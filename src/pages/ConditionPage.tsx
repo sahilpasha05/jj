@@ -4,6 +4,7 @@ import { BackButton } from '@/components/BackButton';
 import { ConditionOption } from '@/components/ConditionOption';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { PageTransition } from '@/components/PageTransition';
+import { Smartphone } from 'lucide-react';
 
 const conditionSteps = {
   screen: {
@@ -12,10 +13,10 @@ const conditionSteps = {
     nextStep: '/condition/body',
     prevStep: null,
     options: [
-      { id: 'perfect', title: 'Perfect', description: 'No scratches, no cracks', icon: '✨' },
-      { id: 'minor', title: 'Minor Scratches', description: 'Light scratches, barely visible', icon: '🔍' },
-      { id: 'cracked', title: 'Cracked', description: 'Visible cracks but working', icon: '💔' },
-      { id: 'broken', title: 'Broken Display', description: 'Display not working properly', icon: '❌' },
+      { id: 'perfect', title: 'Perfect', description: 'No scratches, no cracks', icon: 'Sparkles' },
+      { id: 'minor', title: 'Minor Scratches', description: 'Light scratches, barely visible', icon: 'Search' },
+      { id: 'cracked', title: 'Cracked', description: 'Visible cracks but working', icon: 'AlertTriangle' },
+      { id: 'broken', title: 'Broken Display', description: 'Display not working properly', icon: 'XCircle' },
     ],
   },
   body: {
@@ -24,10 +25,10 @@ const conditionSteps = {
     nextStep: '/condition/functional',
     prevStep: '/condition/screen',
     options: [
-      { id: 'perfect', title: 'Perfect', description: 'No dents, no scratches', icon: '✨' },
-      { id: 'minor', title: 'Minor Wear', description: 'Light scratches or small marks', icon: '🔍' },
-      { id: 'major', title: 'Major Wear', description: 'Visible dents or scratches', icon: '⚠️' },
-      { id: 'broken', title: 'Damaged', description: 'Bent or broken parts', icon: '❌' },
+      { id: 'perfect', title: 'Perfect', description: 'No dents, no scratches', icon: 'Sparkles' },
+      { id: 'minor', title: 'Minor Wear', description: 'Light scratches or small marks', icon: 'Search' },
+      { id: 'major', title: 'Major Wear', description: 'Visible dents or scratches', icon: 'AlertTriangle' },
+      { id: 'broken', title: 'Damaged', description: 'Bent or broken parts', icon: 'XCircle' },
     ],
   },
   functional: {
@@ -36,9 +37,9 @@ const conditionSteps = {
     nextStep: '/final-price',
     prevStep: '/condition/body',
     options: [
-      { id: 'working', title: 'All Working', description: 'Camera, speaker, buttons all work', icon: '✅' },
-      { id: 'partial', title: 'Partial Issues', description: 'Some features not working', icon: '⚠️' },
-      { id: 'notWorking', title: 'Major Issues', description: 'Multiple features not working', icon: '❌' },
+      { id: 'working', title: 'All Working', description: 'Camera, speaker, buttons all work', icon: 'CheckCircle' },
+      { id: 'partial', title: 'Partial Issues', description: 'Some features not working', icon: 'AlertTriangle' },
+      { id: 'notWorking', title: 'Major Issues', description: 'Multiple features not working', icon: 'XCircle' },
     ],
   },
 };
@@ -94,7 +95,9 @@ export default function ConditionPage() {
       {/* Phone Info */}
       <div className="px-4 py-4">
         <div className="flex items-center gap-3 p-3 rounded-xl bg-muted">
-          <span className="text-2xl">{selectedPhone.image}</span>
+          <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center">
+            <Smartphone size={20} className="text-muted-foreground" />
+          </div>
           <div>
             <p className="font-semibold text-foreground">{selectedPhone.model}</p>
             <p className="text-sm text-muted-foreground">{selectedPhone.brand}</p>
@@ -114,7 +117,7 @@ export default function ConditionPage() {
               id={option.id}
               title={option.title}
               description={option.description}
-              icon={option.icon}
+              iconName={option.icon}
               selected={currentAnswer === option.id}
               onSelect={() => handleSelect(option.id)}
             />

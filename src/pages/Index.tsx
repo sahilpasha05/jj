@@ -2,7 +2,7 @@ import { Header } from '@/components/Header';
 import { BrandCard } from '@/components/BrandCard';
 import { brands } from '@/data/phones';
 import { PageTransition } from '@/components/PageTransition';
-import { Smartphone, Shield, Zap, Truck } from 'lucide-react';
+import { Smartphone, Shield, Zap, Truck, CircleDollarSign, Package, CheckCircle } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -21,19 +21,19 @@ const Index = () => {
                 Best price • Free pickup • Instant payment
               </p>
               <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium">
+                <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium">
                   <Shield size={12} /> Verified
                 </span>
-                <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium">
+                <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium">
                   <Zap size={12} /> Fast
                 </span>
-                <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium">
+                <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium">
                   <Truck size={12} /> Free Pickup
                 </span>
               </div>
             </div>
-            <div className="text-6xl opacity-80">
-              📱
+            <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center">
+              <Smartphone size={32} className="text-primary-foreground" />
             </div>
           </div>
         </div>
@@ -54,14 +54,14 @@ const Index = () => {
         <h2 className="text-lg font-bold text-foreground mb-4">How It Works</h2>
         <div className="space-y-3">
           {[
-            { step: '1', title: 'Select Your Phone', desc: 'Choose brand & model', icon: '📱' },
-            { step: '2', title: 'Get Best Price', desc: 'Answer few questions', icon: '💰' },
-            { step: '3', title: 'Schedule Pickup', desc: 'We come to your door', icon: '🚚' },
-            { step: '4', title: 'Get Paid Instantly', desc: 'Cash or bank transfer', icon: '✨' },
+            { step: '1', title: 'Select Your Phone', desc: 'Choose brand & model', Icon: Smartphone },
+            { step: '2', title: 'Get Best Price', desc: 'Answer few questions', Icon: CircleDollarSign },
+            { step: '3', title: 'Schedule Pickup', desc: 'We come to your door', Icon: Package },
+            { step: '4', title: 'Get Paid Instantly', desc: 'Cash or bank transfer', Icon: CheckCircle },
           ].map((item) => (
             <div key={item.step} className="card-elevated flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center text-2xl">
-                {item.icon}
+              <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center">
+                <item.Icon size={22} className="text-primary" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground">{item.title}</h3>
