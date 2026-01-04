@@ -4,7 +4,7 @@ import { BackButton } from '@/components/BackButton';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { TrustBadges } from '@/components/TrustBadges';
 import { PageTransition } from '@/components/PageTransition';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Smartphone, Truck, Banknote, Shield, HardDrive } from 'lucide-react';
 
 export default function FinalPricePage() {
   const navigate = useNavigate();
@@ -50,7 +50,9 @@ export default function FinalPricePage() {
 
           {/* Phone Summary */}
           <div className="flex items-center justify-center gap-3 mt-6 p-4 rounded-xl bg-muted">
-            <span className="text-3xl">{selectedPhone.image}</span>
+            <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center">
+              <Smartphone size={22} className="text-muted-foreground" />
+            </div>
             <div className="text-left">
               <p className="font-semibold text-foreground">{selectedPhone.model}</p>
               <p className="text-sm text-muted-foreground">{selectedPhone.brand}</p>
@@ -68,13 +70,15 @@ export default function FinalPricePage() {
       <section className="px-4 pb-8">
         <div className="space-y-3">
           {[
-            { icon: '🚚', text: 'Free doorstep pickup within 24 hours' },
-            { icon: '💵', text: 'Instant payment on pickup' },
-            { icon: '🔒', text: 'Safe & secure transaction' },
-            { icon: '📱', text: 'Data wiping assistance included' },
+            { Icon: Truck, text: 'Free doorstep pickup within 24 hours' },
+            { Icon: Banknote, text: 'Instant payment on pickup' },
+            { Icon: Shield, text: 'Safe & secure transaction' },
+            { Icon: HardDrive, text: 'Data wiping assistance included' },
           ].map((item, idx) => (
             <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-muted">
-              <span className="text-xl">{item.icon}</span>
+              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
+                <item.Icon size={18} className="text-primary" />
+              </div>
               <span className="text-sm font-medium text-foreground">{item.text}</span>
             </div>
           ))}

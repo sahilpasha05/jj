@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { BackButton } from '@/components/BackButton';
 import { PageTransition } from '@/components/PageTransition';
-import { CreditCard, Building2, Wallet, Check, AlertTriangle } from 'lucide-react';
+import { CreditCard, Check, AlertTriangle, Smartphone, Wallet, Building2 } from 'lucide-react';
 
 const paymentOptions = [
-  { id: 'upi', name: 'UPI', description: 'Google Pay, PhonePe, Paytm', icon: '📲' },
-  { id: 'bank', name: 'Bank Transfer', description: 'Direct transfer to your account', icon: '🏦' },
-  { id: 'wallet', name: 'Wallet', description: 'Paytm, PhonePe wallet', icon: '💳' },
+  { id: 'upi', name: 'UPI', description: 'Google Pay, PhonePe, Paytm', Icon: Smartphone },
+  { id: 'bank', name: 'Bank Transfer', description: 'Direct transfer to your account', Icon: Building2 },
+  { id: 'wallet', name: 'Wallet', description: 'Paytm, PhonePe wallet', Icon: Wallet },
 ];
 
 export default function PaymentPage() {
@@ -72,7 +72,9 @@ export default function PaymentPage() {
         <div className="card-elevated p-4 mb-6">
           <h3 className="text-sm font-semibold text-muted-foreground mb-3">ORDER SUMMARY</h3>
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-2xl">{selectedPhone.image}</span>
+            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+              <Smartphone size={18} className="text-muted-foreground" />
+            </div>
             <div className="flex-1">
               <p className="font-semibold text-foreground">{selectedPhone.model}</p>
               <p className="text-sm text-muted-foreground">{selectedPhone.brand}</p>
@@ -96,7 +98,11 @@ export default function PaymentPage() {
                 selected === option.id ? 'selected' : ''
               }`}
             >
-              <span className="text-3xl">{option.icon}</span>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                selected === option.id ? 'bg-primary/20' : 'bg-muted'
+              }`}>
+                <option.Icon size={22} className={selected === option.id ? 'text-primary' : 'text-muted-foreground'} />
+              </div>
               <div className="flex-1">
                 <h4 className="font-semibold text-foreground">{option.name}</h4>
                 <p className="text-sm text-muted-foreground">{option.description}</p>

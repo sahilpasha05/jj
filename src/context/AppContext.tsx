@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 interface PhoneSelection {
   brand: string;
   model: string;
-  image: string;
   basePrice: number;
 }
 
