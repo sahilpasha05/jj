@@ -92,26 +92,57 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Load from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
-    const storedAddress = localStorage.getItem(STORAGE_KEYS.ADDRESS);
-    const storedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
-    const storedPayment = localStorage.getItem(STORAGE_KEYS.PAYMENT);
+    try {
+      const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
+      const storedAddress = localStorage.getItem(STORAGE_KEYS.ADDRESS);
+      const storedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
+      const storedPayment = localStorage.getItem(STORAGE_KEYS.PAYMENT);
 
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      setUser(parsed);
-      setIsLoggedIn(true);
+      if (storedUser) {
+        try {
+          const parsed = JSON.parse(storedUser);
+          setUser(parsed);
+          setIsLoggedIn(true);
+        } catch {
+          localStorage.removeItem(STORAGE_KEYS.USER);
+        }
+      }
+      
+      if (storedAddress) {
+        try {
+          setSavedAddressState(JSON.parse(storedAddress));
+        } catch {
+          localStorage.removeItem(STORAGE_KEYS.ADDRESS);
+        }
+      }
+      
+      if (storedOrders) {
+        try {
+          setOrders(JSON.parse(storedOrders));
+        } catch {
+          localStorage.removeItem(STORAGE_KEYS.ORDERS);
+        }
+      }
+      
+      if (storedPayment) {
+        setPaymentMethodState(storedPayment);
+      }
+    } catch (error) {
+      console.error('Error loading from localStorage:', error);
     }
-    if (storedAddress) setSavedAddressState(JSON.parse(storedAddress));
-    if (storedOrders) setOrders(JSON.parse(storedOrders));
-    if (storedPayment) setPaymentMethodState(storedPayment);
   }, []);
 
   const login = (mobile: string) => {
-    const newUser = { mobile, name: '' };
-    setUser(newUser);
-    setIsLoggedIn(true);
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(newUser));
+    try {
+      const newUser = { mobile, name: '' };
+      setUser(newUser);
+      setIsLoggedIn(true);
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(newUser));
+    } catch (error) {
+      console.error('Error saving user:', error);
+      setUser({ mobile, name: '' });
+      setIsLoggedIn(true);
+    }
   };
 
   const logout = () => {
@@ -126,9 +157,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const updateUserName = (name: string) => {
     if (user) {
-      const updated = { ...user, name };
-      setUser(updated);
-      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updated));
+      try {
+        const updated = { ...user, name };
+        setUser(updated);
+        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updated));
+      } catch (error) {
+        console.error('Error updating user name:', error);
+        setUser({ ...user, name });
+      }
     }
   };
 
@@ -165,28 +201,52 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const setSavedAddress = (address: Address) => {
-    setSavedAddressState(address);
-    localStorage.setItem(STORAGE_KEYS.ADDRESS, JSON.stringify(address));
+    try {
+      setSavedAddressState(address);
+      localStorage.setItem(STORAGE_KEYS.ADDRESS, JSON.stringify(address));
+    } catch (error) {
+      console.error('Error saving address:', error);
+      setSavedAddressState(address);
+    }
   };
 
   const setPaymentMethod = (method: string) => {
-    setPaymentMethodState(method);
-    localStorage.setItem(STORAGE_KEYS.PAYMENT, method);
+    try {
+      setPaymentMethodState(method);
+      localStorage.setItem(STORAGE_KEYS.PAYMENT, method);
+    } catch (error) {
+      console.error('Error saving payment method:', error);
+      setPaymentMethodState(method);
+    }
   };
 
   const addOrder = (order: Omit<Order, 'id' | 'date'>) => {
-    const newOrder: Order = {
-      ...order,
-      id: `ORD${Date.now()}`,
-      date: new Date().toLocaleDateString('en-IN', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      }),
-    };
-    const updated = [newOrder, ...orders];
-    setOrders(updated);
-    localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(updated));
+    try {
+      const newOrder: Order = {
+        ...order,
+        id: `ORD${Date.now()}`,
+        date: new Date().toLocaleDateString('en-IN', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }),
+      };
+      const updated = [newOrder, ...orders];
+      setOrders(updated);
+      localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(updated));
+    } catch (error) {
+      console.error('Error saving order:', error);
+      const newOrder: Order = {
+        ...order,
+        id: `ORD${Date.now()}`,
+        date: new Date().toLocaleDateString('en-IN', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }),
+      };
+      setOrders([newOrder, ...orders]);
+    }
   };
 
   const resetFlow = () => {

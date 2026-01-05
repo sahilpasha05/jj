@@ -3,23 +3,39 @@ import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/components/BackButton';
 import { PageTransition } from '@/components/PageTransition';
 import { useToast } from '@/hooks/use-toast';
-import { Smartphone } from 'lucide-react';
+import { Smartphone, AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const [mobile, setMobile] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [touched, setTouched] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const isValidMobile = /^[6-9]\d{9}$/.test(mobile);
+  const hasError = touched && mobile.length > 0 && !isValidMobile;
 
-  const handleGetOTP = () => {
-    if (isValidMobile) {
+  const handleGetOTP = async () => {
+    if (!isValidMobile) {
+      toast({
+        title: 'Invalid Number',
+        description: 'Please enter a valid 10-digit mobile number',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    // Simulate OTP sending delay
+    setTimeout(() => {
       toast({
         title: 'OTP Sent Successfully! ✓',
         description: `OTP sent to +91 ${mobile}`,
       });
+      setIsLoading(false);
       navigate('/otp', { state: { mobile } });
-    }
+    }, 600);
   };
 
   return (
@@ -59,10 +75,31 @@ export default function LoginPage() {
               maxLength={10}
               value={mobile}
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
+              onBlur={() => setTouched(true)}
               placeholder="Enter 10-digit number"
-              className="flex-1 px-4 py-3 rounded-xl border-2 border-border bg-background text-foreground text-lg font-medium placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className={`flex-1 px-4 py-3 rounded-xl border-2 bg-background text-foreground text-lg font-medium placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/20 outline-none transition-all ${
+                hasError 
+                  ? 'border-destructive focus:border-destructive' 
+                  : mobile.length === 10 && isValidMobile
+                  ? 'border-success focus:border-success'
+                  : 'border-border focus:border-primary'
+              }`}
             />
           </div>
+          
+          {hasError && (
+            <div className="flex items-center gap-2 mt-3 text-destructive text-sm">
+              <AlertCircle size={16} />
+              <span>Invalid mobile number. Must start with 6-9 and be 10 digits</span>
+            </div>
+          )}
+
+          {mobile.length === 10 && isValidMobile && (
+            <div className="flex items-center gap-2 mt-3 text-success text-sm">
+              <CheckCircle size={16} />
+              <span>Mobile number is valid</span>
+            </div>
+          )}
           
           <p className="text-xs text-muted-foreground mt-3">
             We'll send you a one-time password to verify your number
@@ -70,10 +107,10 @@ export default function LoginPage() {
 
           <button
             onClick={handleGetOTP}
-            disabled={!isValidMobile}
-            className={`btn-primary mt-6 ${!isValidMobile ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!isValidMobile || isLoading}
+            className={`btn-primary mt-6 ${(!isValidMobile || isLoading) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Get OTP
+            {isLoading ? 'Sending OTP...' : 'Get OTP'}
           </button>
         </div>
 

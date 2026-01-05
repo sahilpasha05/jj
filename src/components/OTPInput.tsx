@@ -3,14 +3,15 @@ import { useRef, useState, KeyboardEvent, ClipboardEvent } from 'react';
 interface OTPInputProps {
   length?: number;
   onComplete: (otp: string) => void;
+  disabled?: boolean;
 }
 
-export function OTPInput({ length = 4, onComplete }: OTPInputProps) {
+export function OTPInput({ length = 4, onComplete, disabled = false }: OTPInputProps) {
   const [otp, setOtp] = useState<string[]>(new Array(length).fill(''));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return;
+    if (disabled || !/^\d*$/.test(value)) return;
 
     const newOtp = [...otp];
     newOtp[index] = value.slice(-1);
@@ -29,12 +30,14 @@ export function OTPInput({ length = 4, onComplete }: OTPInputProps) {
   };
 
   const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
+    if (disabled) return;
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
 
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
+    if (disabled) return;
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').slice(0, length);
     if (!/^\d+$/.test(pastedData)) return;
@@ -63,7 +66,8 @@ export function OTPInput({ length = 4, onComplete }: OTPInputProps) {
           onChange={(e) => handleChange(index, e.target.value)}
           onKeyDown={(e) => handleKeyDown(index, e)}
           onPaste={handlePaste}
-          className="otp-input"
+          disabled={disabled}
+          className={`otp-input ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           autoFocus={index === 0}
         />
       ))}

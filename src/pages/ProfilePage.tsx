@@ -1,16 +1,19 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { PageTransition } from '@/components/PageTransition';
 import { Header } from '@/components/Header';
 import { OrderCard } from '@/components/OrderCard';
-import { User, MapPin, CreditCard, LogOut, ChevronRight, Package } from 'lucide-react';
+import { User, MapPin, CreditCard, LogOut, ChevronRight, Package, AlertTriangle } from 'lucide-react';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { isLoggedIn, user, savedAddress, paymentMethod, orders, logout } = useApp();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogoutConfirm = () => {
     logout();
+    setShowLogoutConfirm(false);
     navigate('/');
   };
 
@@ -126,7 +129,7 @@ export default function ProfilePage() {
         {/* Logout */}
         {isLoggedIn && (
           <button
-            onClick={handleLogout}
+            onClick={() => setShowLogoutConfirm(true)}
             className="w-full p-4 rounded-2xl border-2 border-destructive/20 text-destructive font-semibold flex items-center justify-center gap-2 hover:bg-destructive/5 transition-colors"
           >
             <LogOut size={20} />
@@ -134,6 +137,37 @@ export default function ProfilePage() {
           </button>
         )}
       </section>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-card rounded-3xl p-6 max-w-sm w-full animate-scale-in">
+            <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle size={32} className="text-destructive" />
+            </div>
+            <h2 className="text-xl font-bold text-foreground text-center mb-2">
+              Logout?
+            </h2>
+            <p className="text-muted-foreground text-center mb-6">
+              Are you sure you want to logout? Your session will end.
+            </p>
+            <div className="space-y-3">
+              <button 
+                onClick={handleLogoutConfirm} 
+                className="btn-cta"
+              >
+                Yes, Logout
+              </button>
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="w-full py-3 rounded-xl font-semibold text-muted-foreground hover:bg-muted transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </PageTransition>
   );
 }

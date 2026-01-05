@@ -4,7 +4,7 @@ import { BackButton } from '@/components/BackButton';
 import { ConditionOption } from '@/components/ConditionOption';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { PageTransition } from '@/components/PageTransition';
-import { Smartphone } from 'lucide-react';
+import { Smartphone, AlertCircle } from 'lucide-react';
 
 const conditionSteps = {
   screen: {
@@ -67,8 +67,17 @@ export default function ConditionPage() {
   };
 
   const handleContinue = () => {
-    if (currentAnswer) {
-      navigate(currentStep.nextStep);
+    if (!currentAnswer) {
+      return;
+    }
+    navigate(currentStep.nextStep);
+  };
+
+  const handleBack = () => {
+    if (currentStep.prevStep) {
+      navigate(currentStep.prevStep);
+    } else {
+      navigate(`/sell/${selectedPhone?.brand.toLowerCase()}`);
     }
   };
 
@@ -123,6 +132,14 @@ export default function ConditionPage() {
             />
           ))}
         </div>
+
+        {/* Selection Guidance */}
+        {!currentAnswer && (
+          <div className="flex items-center gap-3 mt-6 p-4 rounded-xl bg-secondary/10 text-secondary">
+            <AlertCircle size={20} className="flex-shrink-0" />
+            <p className="text-sm font-medium">Please select an option to continue</p>
+          </div>
+        )}
       </section>
 
       {/* Sticky CTA */}

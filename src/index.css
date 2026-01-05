@@ -1,13 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
 @layer base {
   :root {
-    /* SellkarIndia Brand Colors - Indian Fintech Aesthetic */
-    --background: 210 20% 98%;
+    /* SellkarIndia Brand Colors - Royal Blue Theme */
+    --background: 220 20% 98%;
     --foreground: 220 20% 10%;
 
     --card: 0 0% 100%;
@@ -16,26 +16,26 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 10%;
 
-    /* Vibrant Teal - Primary Brand */
-    --primary: 174 72% 40%;
+    /* Royal Blue - Primary Brand */
+    --primary: 225 73% 57%;
     --primary-foreground: 0 0% 100%;
 
-    /* Warm Orange - CTAs & Accents */
-    --secondary: 24 95% 53%;
+    /* Deep Blue - CTAs & Accents */
+    --secondary: 225 73% 45%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 15% 94%;
+    --muted: 220 15% 94%;
     --muted-foreground: 220 10% 45%;
 
-    --accent: 174 60% 94%;
-    --accent-foreground: 174 72% 30%;
+    --accent: 225 60% 94%;
+    --accent-foreground: 225 73% 35%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 15% 90%;
-    --input: 210 15% 90%;
-    --ring: 174 72% 40%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 225 73% 57%;
 
     --radius: 1rem;
 
@@ -43,21 +43,21 @@
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
     
-    --price: 174 72% 35%;
-    --price-highlight: 24 95% 50%;
+    --price: 225 73% 45%;
+    --price-highlight: 225 73% 57%;
     
     /* Shadows */
     --shadow-card: 0 2px 12px -2px hsl(220 20% 10% / 0.08);
     --shadow-card-hover: 0 8px 24px -4px hsl(220 20% 10% / 0.12);
     --shadow-bottom-nav: 0 -4px 20px -2px hsl(220 20% 10% / 0.1);
-    --shadow-button: 0 4px 14px -2px hsl(174 72% 40% / 0.4);
-    --shadow-cta: 0 4px 14px -2px hsl(24 95% 53% / 0.4);
+    --shadow-button: 0 4px 14px -2px hsl(225 73% 57% / 0.4);
+    --shadow-cta: 0 4px 14px -2px hsl(225 73% 50% / 0.4);
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(174 72% 40%) 0%, hsl(174 60% 50%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(24 95% 53%) 0%, hsl(30 95% 55%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(225 73% 57%) 0%, hsl(225 73% 67%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(225 73% 50%) 0%, hsl(225 73% 60%) 100%);
     --gradient-success: linear-gradient(135deg, hsl(142 71% 45%) 0%, hsl(150 60% 50%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 98%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 20% 98%) 100%);
   }
 }
 

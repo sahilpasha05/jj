@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { BackButton } from '@/components/BackButton';
 import { PageTransition } from '@/components/PageTransition';
-import { CreditCard, Check, AlertTriangle, Smartphone, Wallet, Building2 } from 'lucide-react';
+import { CreditCard, Check, AlertTriangle, Smartphone, Wallet, Building2, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const paymentOptions = [
   { id: 'upi', name: 'UPI', description: 'Google Pay, PhonePe, Paytm', Icon: Smartphone },
@@ -14,8 +15,10 @@ const paymentOptions = [
 export default function PaymentPage() {
   const navigate = useNavigate();
   const { selectedPhone, calculatePrice, savedAddress, paymentMethod, setPaymentMethod, addOrder } = useApp();
+  const { toast } = useToast();
   const [selected, setSelected] = useState(paymentMethod || '');
   const [showModal, setShowModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   if (!selectedPhone || !savedAddress) {
     navigate('/sell');
@@ -25,23 +28,49 @@ export default function PaymentPage() {
   const finalPrice = calculatePrice();
 
   const handleSelect = (optionId: string) => {
+    if (isProcessing) return;
     setSelected(optionId);
     setShowModal(true);
   };
 
-  const handleConfirmPayment = () => {
-    setPaymentMethod(selected);
-    
-    // Create order
-    addOrder({
-      phone: selectedPhone,
-      finalPrice,
-      paymentMethod: paymentOptions.find(p => p.id === selected)?.name || '',
-      address: savedAddress,
-      status: 'Pickup Scheduled',
-    });
+  const handleConfirmPayment = async () => {
+    if (!selected) {
+      toast({
+        title: 'Select Payment Method',
+        description: 'Please choose a payment method to continue',
+        variant: 'destructive',
+      });
+      return;
+    }
 
-    navigate('/confirmation');
+    setIsProcessing(true);
+    
+    try {
+      // Simulate payment processing
+      setTimeout(() => {
+        setPaymentMethod(selected);
+        
+        // Create order
+        addOrder({
+          phone: selectedPhone,
+          finalPrice,
+          paymentMethod: paymentOptions.find(p => p.id === selected)?.name || '',
+          address: savedAddress,
+          status: 'Pickup Scheduled',
+        });
+
+        setIsProcessing(false);
+        setShowModal(false);
+        navigate('/confirmation');
+      }, 1200);
+    } catch (error) {
+      setIsProcessing(false);
+      toast({
+        title: 'Payment Failed',
+        description: 'An error occurred. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -123,24 +152,37 @@ export default function PaymentPage() {
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
           <div className="bg-card rounded-3xl p-6 max-w-sm w-full animate-scale-in">
-            <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mx-auto mb-4">
-              <AlertTriangle size={32} className="text-secondary" />
+            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
+              isProcessing ? 'bg-primary/10' : 'bg-secondary/10'
+            }`}>
+              {isProcessing ? (
+                <Loader2 size={32} className="text-primary animate-spin" />
+              ) : (
+                <AlertTriangle size={32} className="text-secondary" />
+              )}
             </div>
             <h2 className="text-xl font-bold text-foreground text-center mb-2">
-              Demo Payment
+              {isProcessing ? 'Processing Payment' : 'Confirm Payment'}
             </h2>
             <p className="text-muted-foreground text-center mb-6">
-              This is a demo payment. No real transaction will happen.
+              {isProcessing 
+                ? 'Please wait while we process your payment...'
+                : 'This is a demo payment. No real transaction will happen.'}
             </p>
             <div className="space-y-3">
-              <button onClick={handleConfirmPayment} className="btn-cta">
-                Confirm Payment
+              <button 
+                onClick={handleConfirmPayment} 
+                disabled={isProcessing}
+                className={`btn-cta ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {isProcessing ? 'Processing...' : 'Confirm Payment'}
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="w-full py-3 rounded-xl font-semibold text-muted-foreground hover:bg-muted transition-colors"
+                disabled={isProcessing}
+                className={`w-full py-3 rounded-xl font-semibold text-muted-foreground hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                Cancel
+                {isProcessing ? 'Please wait...' : 'Cancel'}
               </button>
             </div>
           </div>
