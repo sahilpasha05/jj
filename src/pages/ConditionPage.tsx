@@ -84,75 +84,88 @@ export default function ConditionPage() {
   const progress = step === 'screen' ? 33 : step === 'body' ? 66 : 100;
 
   return (
-    <PageTransition className="app-container pb-32">
+    <PageTransition className="w-full flex flex-col min-h-screen">
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-card/98 backdrop-blur-2xl border-b border-border px-4 py-4">
-        <div className="flex items-center justify-between mb-4">
-          <BackButton to={currentStep.prevStep || `/sell/${selectedPhone?.brand.toLowerCase()}`} />
-          <PriceDisplay price={calculatePrice()} label="Current Quote" />
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="h-2 bg-muted rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-hero transition-all duration-500 ease-out rounded-full"
-            style={{ width: `${progress}%` }}
-          />
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between mb-3">
+            <BackButton to={currentStep.prevStep || `/sell/${selectedPhone?.brand.toLowerCase()}`} />
+            <div className="text-right">
+              <div className="text-xs text-gray-500 font-medium mb-0.5">Current Quote</div>
+              <PriceDisplay price={calculatePrice()} label="" />
+            </div>
+          </div>
+          
+          {/* Progress Bar */}
+          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-600 to-blue-500 transition-all duration-500 ease-out rounded-full"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
       </div>
 
       {/* Phone Info */}
-      <div className="px-4 py-6">
-        <div className="flex items-center gap-4 p-4 rounded-2xl border border-primary/10" style={{ background: 'linear-gradient(135deg, hsl(225 73% 57% / 0.08) 0%, hsl(225 73% 57% / 0.03) 100%)' }}>
-          <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center">
-            <Smartphone size={24} className="text-primary" />
+      <div className="px-4 py-4 bg-gradient-to-br from-blue-50 to-blue-50/50">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-blue-100 shadow-sm">
+          <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <Smartphone size={22} className="text-blue-600" />
           </div>
-          <div>
-            <p className="font-bold text-foreground text-base">{selectedPhone.model}</p>
-            <p className="text-sm text-muted-foreground">{selectedPhone.brand}</p>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-gray-900 text-base truncate">{selectedPhone.model}</p>
+            <p className="text-sm text-gray-600">{selectedPhone.brand}</p>
           </div>
         </div>
       </div>
 
-      {/* Question */}
-      <section className="page-content">
-        <div className="space-y-2 mb-8">
-          <h1 className="page-header-title">{currentStep.title}</h1>
-          <p className="page-header-subtitle">{currentStep.subtitle}</p>
-        </div>
-
-        <div className="space-y-3">
-          {currentStep.options.map((option) => (
-            <ConditionOption
-              key={option.id}
-              id={option.id}
-              title={option.title}
-              description={option.description}
-              iconName={option.icon}
-              selected={currentAnswer === option.id}
-              onSelect={() => handleSelect(option.id)}
-            />
-          ))}
-        </div>
-
-        {/* Selection Guidance */}
-        {!currentAnswer && (
-          <div className="flex items-center gap-3 mt-8 p-4 rounded-xl bg-secondary/10 text-secondary">
-            <AlertCircle size={20} className="flex-shrink-0" />
-            <p className="text-sm font-medium">Please select an option to continue</p>
+      {/* Content Area - Scrollable */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="px-4 py-6 pb-32">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">{currentStep.title}</h1>
+            <p className="text-sm text-gray-600">{currentStep.subtitle}</p>
           </div>
-        )}
-      </section>
 
-      {/* Sticky CTA */}
-      <div className="sticky-bottom max-w-md mx-auto">
-        <button
-          onClick={handleContinue}
-          disabled={!currentAnswer}
-          className={`btn-cta ${!currentAnswer ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          Continue
-        </button>
+          <div className="space-y-3">
+            {currentStep.options.map((option) => (
+              <ConditionOption
+                key={option.id}
+                id={option.id}
+                title={option.title}
+                description={option.description}
+                iconName={option.icon}
+                selected={currentAnswer === option.id}
+                onSelect={() => handleSelect(option.id)}
+              />
+            ))}
+          </div>
+
+          {/* Selection Guidance */}
+          {!currentAnswer && (
+            <div className="flex items-start gap-3 mt-6 p-4 rounded-xl bg-blue-50 border border-blue-100">
+              <AlertCircle size={20} className="flex-shrink-0 text-blue-600 mt-0.5" />
+              <p className="text-sm text-blue-900 font-medium">Please select an option to continue</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Sticky Bottom Button */}
+      <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+        <div className="px-4 py-4 pb-safe">
+          <button
+            onClick={handleContinue}
+            disabled={!currentAnswer}
+            className={`w-full py-4 px-6 rounded-xl font-bold text-base text-white transition-all ${
+              !currentAnswer 
+                ? 'bg-gray-300 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg shadow-blue-500/30 active:scale-[0.98]'
+            }`}
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </PageTransition>
   );
