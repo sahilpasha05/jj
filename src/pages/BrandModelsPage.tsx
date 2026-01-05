@@ -29,9 +29,9 @@ export default function BrandModelsPage() {
         <BackButton to="/sell" />
       </div>
 
-      <section className="px-4 pb-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center overflow-hidden">
+      <section className="page-content">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(225 73% 57% / 0.15) 0%, hsl(225 73% 57% / 0.05) 100%)' }}>
             <img 
               src={brand.image} 
               alt={brand.name}
@@ -40,12 +40,12 @@ export default function BrandModelsPage() {
             />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">{brand.name} Phones</h1>
+            <h1 className="page-header-title text-2xl">{brand.name} Phones</h1>
             <p className="text-sm text-muted-foreground">{models.length} models available</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-4">
           {models.map((model) => (
             <PhoneModelCard key={model.id} model={model} />
           ))}

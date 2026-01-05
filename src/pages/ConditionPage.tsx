@@ -86,38 +86,40 @@ export default function ConditionPage() {
   return (
     <PageTransition className="app-container pb-32">
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-card/95 backdrop-blur-lg border-b border-border px-4 py-4">
-        <div className="flex items-center justify-between mb-3">
+      <div className="sticky top-0 z-50 bg-card/98 backdrop-blur-2xl border-b border-border px-4 py-4">
+        <div className="flex items-center justify-between mb-4">
           <BackButton to={currentStep.prevStep || `/sell/${selectedPhone?.brand.toLowerCase()}`} />
           <PriceDisplay price={calculatePrice()} label="Current Quote" />
         </div>
         
         {/* Progress Bar */}
-        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+        <div className="h-2 bg-muted rounded-full overflow-hidden">
           <div 
-            className="h-full bg-primary transition-all duration-500 ease-out rounded-full"
+            className="h-full bg-gradient-hero transition-all duration-500 ease-out rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
       {/* Phone Info */}
-      <div className="px-4 py-4">
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-muted">
-          <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center">
-            <Smartphone size={20} className="text-muted-foreground" />
+      <div className="px-4 py-6">
+        <div className="flex items-center gap-4 p-4 rounded-2xl border border-primary/10" style={{ background: 'linear-gradient(135deg, hsl(225 73% 57% / 0.08) 0%, hsl(225 73% 57% / 0.03) 100%)' }}>
+          <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center">
+            <Smartphone size={24} className="text-primary" />
           </div>
           <div>
-            <p className="font-semibold text-foreground">{selectedPhone.model}</p>
+            <p className="font-bold text-foreground text-base">{selectedPhone.model}</p>
             <p className="text-sm text-muted-foreground">{selectedPhone.brand}</p>
           </div>
         </div>
       </div>
 
       {/* Question */}
-      <section className="px-4 pb-6">
-        <h1 className="text-xl font-bold text-foreground mb-1">{currentStep.title}</h1>
-        <p className="text-muted-foreground mb-6">{currentStep.subtitle}</p>
+      <section className="page-content">
+        <div className="space-y-2 mb-8">
+          <h1 className="page-header-title">{currentStep.title}</h1>
+          <p className="page-header-subtitle">{currentStep.subtitle}</p>
+        </div>
 
         <div className="space-y-3">
           {currentStep.options.map((option) => (
@@ -135,7 +137,7 @@ export default function ConditionPage() {
 
         {/* Selection Guidance */}
         {!currentAnswer && (
-          <div className="flex items-center gap-3 mt-6 p-4 rounded-xl bg-secondary/10 text-secondary">
+          <div className="flex items-center gap-3 mt-8 p-4 rounded-xl bg-secondary/10 text-secondary">
             <AlertCircle size={20} className="flex-shrink-0" />
             <p className="text-sm font-medium">Please select an option to continue</p>
           </div>
