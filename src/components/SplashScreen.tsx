@@ -14,16 +14,17 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       setTimeout(() => {
         onComplete();
       }, 500);
-    }, 2500);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
 
   return (
     <div
-      className={`fixed inset-0 bg-gradient-to-br from-primary via-primary to-secondary flex flex-col items-center justify-center z-50 transition-opacity duration-500 ${
+      className={`fixed inset-0 bg-gradient-to-br from-primary via-primary to-secondary flex flex-col items-center justify-center transition-opacity duration-500 ${
         isExiting ? 'opacity-0' : 'opacity-100'
       }`}
+      style={{ zIndex: 9999 }}
     >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">

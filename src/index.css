@@ -6,8 +6,8 @@
 
 @layer base {
   :root {
-    /* SellkarIndia Brand Colors - Premium Royal Blue */
-    --background: 220 20% 98%;
+    /* SellkarIndia Brand Colors - Premium Royal Blue - Light Mode */
+    --background: 0 0% 100%;
     --foreground: 220 20% 10%;
 
     --card: 0 0% 100%;
@@ -78,9 +78,10 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    min-height: 100vh;
-    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
   }
+
 
   h1 {
     @apply text-3xl font-bold tracking-tight;
@@ -96,7 +97,66 @@
 }
 
 @layer components {
-  /* App Container - Mobile First with proper spacing */
+  /* Mobile App Container - True mobile app experience */
+  .mobile-app-container {
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 2.5rem;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -10px rgba(37, 99, 235, 0.15),
+                0 0 0 1px rgba(37, 99, 235, 0.08);
+  }
+
+  @media (max-width: 440px) {
+    .mobile-app-container {
+      max-width: 100%;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .mobile-app-container {
+      max-width: 420px;
+    }
+  }
+
+  /* App Content Area - Scrollable with bottom nav space */
+  .mobile-app-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #fafbfc 0%, #f5f6f8 100%);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-app-content::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .mobile-app-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .mobile-app-content::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 10px;
+  }
+
+  .mobile-app-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+  }
+
+  /* App Container - Legacy (kept for compatibility) */
   .app-container {
     @apply max-w-md mx-auto min-h-screen relative;
     padding-bottom: calc(80px + env(safe-area-inset-bottom));
@@ -122,15 +182,30 @@
 
   /* Card Styles - Elevated depth */
   .card-elevated {
-    @apply bg-card rounded-3xl p-5;
-    box-shadow: var(--shadow-card);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.08),
+                0 0 0 1px rgba(226, 232, 240, 0.8);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid hsl(220 15% 94% / 0.7);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-elevated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.3), transparent);
   }
 
   .card-elevated:hover {
-    box-shadow: var(--shadow-card-hover);
-    border-color: hsl(220 15% 88%);
+    box-shadow: 0 8px 30px -4px rgba(37, 99, 235, 0.12),
+                0 0 0 1px rgba(37, 99, 235, 0.2);
+    transform: translateY(-2px);
   }
 
   .card-interactive {
@@ -158,38 +233,54 @@
 
   /* Brand Card - Better visual hierarchy */
   .brand-card {
-    @apply flex flex-col items-center justify-center p-6 bg-card rounded-3xl;
-    box-shadow: var(--shadow-card);
-    border: 1.5px solid hsl(220 15% 94%);
-    @apply transition-all duration-300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    box-shadow: 0 2px 12px -2px rgba(37, 99, 235, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
   }
 
   .brand-card:hover {
-    box-shadow: var(--shadow-card-hover);
-    border-color: hsl(225 73% 57% / 0.2);
+    box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.15);
+    border-color: rgba(37, 99, 235, 0.3);
+    transform: translateY(-4px);
   }
 
   .brand-card:active {
-    @apply scale-[0.96];
+    transform: translateY(-2px) scale(0.98);
   }
 
   /* Phone Model Card - Premium grid item */
   .phone-model-card {
-    @apply flex flex-col items-center justify-between p-5 rounded-3xl bg-card;
-    box-shadow: var(--shadow-card);
-    border: 1px solid hsl(220 15% 94%);
-    @apply transition-all duration-300;
-    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 2px 12px -2px rgba(37, 99, 235, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 260px;
+    cursor: pointer;
   }
 
   .phone-model-card:hover {
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-4px);
-    border-color: hsl(225 73% 57% / 0.2);
+    box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.15);
+    transform: translateY(-6px);
+    border-color: rgba(37, 99, 235, 0.3);
   }
 
   .phone-model-card:active {
-    @apply scale-[0.98];
+    transform: translateY(-4px) scale(0.98);
   }
 
   /* Image Container */
@@ -206,26 +297,44 @@
     pointer-events: none;
   }
 
-  /* Bottom Navigation - Sleeker design */
+  /* Bottom Navigation - Mobile App Style */
   .bottom-nav {
-    @apply fixed bottom-0 left-0 right-0 backdrop-blur-2xl;
-    @apply flex justify-around items-center px-4;
-    background-color: hsl(0 0% 100% / 0.97);
-    box-shadow: var(--shadow-bottom-nav);
-    height: calc(80px + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid hsl(220 15% 94%);
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(24px) saturate(180%);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
+    box-shadow: 0 -4px 20px -2px rgba(37, 99, 235, 0.08),
+                0 -1px 0 0 rgba(226, 232, 240, 0.8);
+    border-top: 1px solid rgba(226, 232, 240, 0.6);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: calc(64px + env(safe-area-inset-bottom));
+    padding: 8px 8px env(safe-area-inset-bottom) 8px;
+    z-index: 100;
+    gap: 4px;
   }
 
   .bottom-nav-item {
-    @apply flex flex-col items-center justify-center py-2 px-4 rounded-2xl;
-    @apply transition-all duration-300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 8px 4px;
+    border-radius: 12px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     gap: 4px;
+    min-height: 48px;
+    cursor: pointer;
+    position: relative;
   }
 
   .bottom-nav-item.active {
     @apply text-primary;
-    background: hsl(225 73% 57% / 0.08);
+    background: hsl(225 73% 57% / 0.1);
   }
 
   .bottom-nav-item:not(.active) {
@@ -233,28 +342,84 @@
   }
 
   .bottom-nav-item:active {
-    @apply scale-95;
+    transform: scale(0.92);
   }
 
-  /* Button Styles - Premium interactions */
+  .bottom-nav-item svg {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bottom-nav-item.active svg {
+    transform: scale(1.1);
+  }
+
+  /* Button Styles - Mobile app haptic feedback */
   .btn-cta {
-    @apply w-full py-4 px-6 rounded-2xl font-bold text-lg text-secondary-foreground;
-    background: var(--gradient-cta);
-    box-shadow: var(--shadow-cta);
-    @apply active:scale-[0.97] transition-all duration-200;
-    letter-spacing: -0.3px;
+    min-height: 52px;
+    width: 100%;
+    padding: 14px 28px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 16px -2px rgba(37, 99, 235, 0.4),
+                0 2px 8px -2px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: -0.2px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .btn-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-cta:hover::before {
+    left: 100%;
+  }
+
+  .btn-cta:active {
+    transform: scale(0.96) translateY(2px);
+    box-shadow: 0 2px 8px -2px rgba(37, 99, 235, 0.3);
   }
 
   .btn-cta:hover {
-    box-shadow: 0 8px 28px -4px hsl(225 73% 50% / 0.45);
+    box-shadow: 0 6px 24px -4px rgba(37, 99, 235, 0.5),
+                0 4px 12px -2px rgba(37, 99, 235, 0.3);
+    transform: translateY(-2px);
   }
 
   .btn-primary {
-    @apply w-full py-4 px-6 rounded-2xl font-bold text-lg text-primary-foreground;
+    min-height: 48px;
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    color: hsl(var(--primary-foreground));
     background: var(--gradient-hero);
     box-shadow: var(--shadow-button);
-    @apply active:scale-[0.97] transition-all duration-200;
+    transition: all 0.15s cubic-bezier(0.3, 0, 0.7, 1);
     letter-spacing: -0.3px;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .btn-primary:active {
+    transform: scale(0.92) translateY(2px);
+    box-shadow: 0 4px 12px -2px hsl(225 73% 57% / 0.3);
   }
 
   .btn-primary:hover {
@@ -263,13 +428,48 @@
 
   /* Button Secondary */
   .btn-secondary {
-    @apply w-full py-3 px-4 rounded-xl font-semibold text-base;
-    @apply bg-muted text-foreground;
-    @apply transition-all duration-200 active:scale-[0.98];
+    min-height: 48px;
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    background-color: hsl(var(--muted));
+    color: hsl(var(--foreground));
+    transition: all 0.15s cubic-bezier(0.3, 0, 0.7, 1);
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.92) translateY(1px);
   }
 
   .btn-secondary:hover {
-    background-color: hsl(220 15% 94% / 0.8);
+    background-color: hsl(220 15% 88%);
+  }
+
+  /* Button Tertiary - Text only */
+  .btn-tertiary {
+    min-height: 48px;
+    padding: 12px 16px;
+    background: transparent;
+    color: hsl(var(--primary));
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.15s cubic-bezier(0.3, 0, 0.7, 1);
+  }
+
+  .btn-tertiary:active {
+    background: hsl(225 73% 57% / 0.08);
+    transform: scale(0.95);
+  }
+
+  .btn-tertiary:hover {
+    background: hsl(225 73% 57% / 0.08);
   }
 
   /* Price Display - Premium styling */
@@ -468,4 +668,209 @@
       text-shadow: 0 0 20px hsl(174 72% 40% / 0.3);
     }
   }
+
+  /* Mobile-Optimized Spacing & Typography */
+  .mobile-padding {
+    padding: 16px;
+  }
+
+  .mobile-section-gap {
+    gap: 12px;
+  }
+
+  .mobile-heading-lg {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .mobile-heading-md {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .mobile-text-base {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .mobile-text-sm {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Tap Target Minimum (48px) */
+  .tap-target {
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Haptic-style button feedback */
+  .haptic-button {
+    transition: all 0.15s cubic-bezier(0.3, 0, 0.7, 1);
+    active:scale-90;
+  }
+
+  .haptic-button:active {
+    transform: scale(0.90) translateY(2px);
+    filter: brightness(0.95);
+  }
+
+  /* Mobile Screen Transitions */
+  .screen-enter {
+    animation: screenEnter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .screen-exit {
+    animation: screenExit 0.2s ease-in forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeInAnimation 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUpAnimation 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDownAnimation 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes screenEnter {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes screenExit {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+
+  @keyframes fadeInAnimation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUpAnimation {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDownAnimation {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Card-based layouts */
+  .card-mobile {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid hsl(220 15% 90%);
+  }
+
+  .card-mobile-interactive {
+    @apply card-mobile cursor-pointer transition-all duration-200;
+  }
+
+  .card-mobile-interactive:active {
+    transform: scale(0.98) translateY(2px);
+  }
+
+  /* Safe area helpers */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  /* Loading Skeleton */
+  .skeleton-base {
+    background: linear-gradient(
+      90deg,
+      hsl(220 15% 90%),
+      hsl(220 15% 85%),
+      hsl(220 15% 90%)
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: 8px;
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Empty state styling */
+  .empty-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 32px 16px;
+    text-align: center;
+  }
+
+  .empty-state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: hsl(225 73% 57% / 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: hsl(225 73% 57%);
+  }
 }
+

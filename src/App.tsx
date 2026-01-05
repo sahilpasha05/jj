@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "@/context/AppContext";
 import { BottomNav } from "@/components/BottomNav";
 import { SplashScreen } from "@/components/SplashScreen";
+import { MobileAppWrapper } from "@/components/MobileAppWrapper";
 
 import Index from "./pages/Index";
 import SellPage from "./pages/SellPage";
@@ -47,7 +48,7 @@ const App = () => {
           <Sonner />
           {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
           <BrowserRouter>
-            <div className="min-h-screen bg-background">
+            <MobileAppWrapper>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/sell" element={<SellPage />} />
@@ -63,7 +64,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <BottomNav />
-            </div>
+            </MobileAppWrapper>
           </BrowserRouter>
         </TooltipProvider>
       </AppProvider>
