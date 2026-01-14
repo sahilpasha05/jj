@@ -85,7 +85,7 @@ export default function ProfilePage() {
               <div className="text-xs text-muted-foreground">Earned</div>
             </div>
             <div className="card-mobile text-center">
-              <div className="font-bold text-xl text-foreground">{orders.filter(o => o.status === 'completed').length}</div>
+              <div className="font-bold text-xl text-foreground">{orders.filter(o => o.status === 'Completed').length}</div>
               <div className="text-xs text-muted-foreground">Completed</div>
             </div>
           </div>
@@ -214,8 +214,8 @@ export default function ProfilePage() {
               Are you sure you want to logout? Your session will end.
             </p>
             <div className="space-y-3">
-              <button 
-                onClick={handleLogoutConfirm} 
+              <button
+                onClick={handleLogoutConfirm}
                 className="w-full bg-destructive text-destructive-foreground font-semibold py-3 px-6 rounded-xl tap-target haptic-button"
               >
                 Yes, Logout
